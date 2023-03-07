@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const DatabaseConnection = require("./config/database");
+const routers = require("./routers/indexRoute")
 const cors = require('cors')
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(bodyParser.json())
 require("dotenv").config();
 
 app.use(cors())
+app.use("/api/v1", routers);
 
 DatabaseConnection.connectDBLocally();
 const PORT = process.env.PORT;
