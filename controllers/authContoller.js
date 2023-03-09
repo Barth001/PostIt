@@ -43,7 +43,7 @@ class AuthController {
             if (userData) {
                 
                 if (bcrypt.compareSync(req.body.password, userData.password)) {
-                    let jwt_token = jwt.sign({data: userData}, process.env.JWT_SECRET, {expiresIn: '12h'})
+                    let jwt_token = jwt.sign({data: userData}, process.env.JWT_SECRET, {expiresIn: '24h'})
 
                     return res.status(200).send({
                         message: "Login successfully",
