@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const UserProfileController = require("../controllers/userProfileController")
+const Authorization = require("../middleware/authorization")
 
-router.get('/:id', UserProfileController.getUser)
-router.put('/:id', UserProfileController.update)
-router.get('/', UserProfileController.getUsers)
-router.delete('/:id', UserProfileController.deleteUser)
+router.get('/:id', Authorization.authorize, UserProfileController.getUser)
+router.put('/:id', Authorization.authorize, UserProfileController.update)
+router.get('/', Authorization.authorize, UserProfileController.getUsers)
+router.delete('/:id', Authorization.authorize, UserProfileController.deleteUser)
 
 module.exports = router
