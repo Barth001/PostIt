@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+const User = require("../models/user");
 
 class UserProfileService {
     // Get all users
