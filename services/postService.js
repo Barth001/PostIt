@@ -10,7 +10,7 @@ class PostService {
 
     // Get all post
     async getPosts(){
-        return await Post.find()
+        return await Post.find().populate("createdBy").sort({createdAt: -1})
     }
 
     // Get a single post
