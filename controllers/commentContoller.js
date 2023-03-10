@@ -163,6 +163,48 @@ class CommentController {
             })
         }
     }
+
+    // delete  comment
+    async delete(req, res){
+            
+        try {
+            const commentId = req.params.id;
+            
+            if(!mongoose.Types.ObjectId.isValid(commentId)){
+                return res.status(400).send("Invalid postId")
+            }
+
+            const comment = await CommentService.findComment(commentId);
+            if(!comment){
+                return res.status(400).send({
+                    message: "No post found",
+                    data: {}
+                })
+
+            } else {
+                const current_user = req.user;
+                const commentNow = await CommentService.findComment(commentId)
+                if(commentNow.userId != current_user._id){
+                    return res.status(422).send({
+                        message: "error occur",
+                        data: err
+                    })
+                } else {
+                    await CommentService.deleteComment(commentId)
+                    return res.status(200).send({
+                        message: "comment deleted successfully",
+                        
+                    });
+                }
+            }
+            
+        } catch (err) {
+            return res.status(400).send({
+                message: "error occur",
+                data: err
+            })
+        }
+    }
 }
 
 module.exports = new CommentController();
