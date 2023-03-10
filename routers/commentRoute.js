@@ -7,6 +7,6 @@ router.post('/:postId/comment', Authorization.authorize, CommentController.creat
 router.get('/:postId/comment/:id', Authorization.authorize, CommentController.getComment)
 router.put('/:postId/comment/:id', Authorization.authorize, CommentController.update)
 router.get('/:postId/comment', Authorization.authorize, CommentController.getAllComment)
-// router.delete('/:id', PostController.delete)
+router.delete('/comment/:id', Authorization.authorize, CommentController.delete)
 
 module.exports = router

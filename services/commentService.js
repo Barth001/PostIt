@@ -27,6 +27,11 @@ class CommentService {
         return await Comment.findById(id)
     }
 
+    // Delete comment
+    async deleteComment(id){
+        return await Comment.findByIdAndRemove(id)
+    }
+
 }
 
 module.exports = new CommentService();
