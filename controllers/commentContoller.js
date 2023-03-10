@@ -10,7 +10,6 @@ class CommentController {
 
         try {
             const postId = req.params.postId;
-            console.log(postId);
             if(!mongoose.Types.ObjectId.isValid(postId)){
                 return res.status(400).send("Invalid postId")
             }
