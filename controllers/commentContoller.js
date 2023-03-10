@@ -88,6 +88,40 @@ class CommentController {
             })
         }
     }
+
+    // Get single comment
+    async getComment(req, res){
+            
+        try {
+            const postId = req.params.postId;
+            const commentId = req.params.id;
+            if(!mongoose.Types.ObjectId.isValid(postId)){
+                return res.status(400).send("Invalid postId")
+            }
+
+            const post = await PostService.getPost(postId);
+            if(!post){
+                return res.status(400).send({
+                    message: "No post found",
+                    data: {}
+                })
+
+            } else {
+
+                const comments = await CommentService.getComments(postId, commentId)
+                return res.status(200).send({
+                    message: "comment fetched successfully",
+                    data: comments
+                });
+            }
+            
+        } catch (err) {
+            return res.status(400).send({
+                message: "error occur",
+                data: err
+            })
+        }
+    }
 }
 
 module.exports = new CommentController();
