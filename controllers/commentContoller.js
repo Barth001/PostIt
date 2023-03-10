@@ -74,10 +74,7 @@ class CommentController {
                 const comments = await CommentService.getComments(postId)
                 return res.status(200).send({
                     message: "All comment fetched successfully",
-                    data: {
-                        comments: comments,
-                        
-                    }
+                    data: comments
                 });
             }
             
@@ -108,11 +105,55 @@ class CommentController {
 
             } else {
 
-                const comments = await CommentService.getComments(postId, commentId)
+                const comments = await CommentService.getComment(postId, commentId)
                 return res.status(200).send({
                     message: "comment fetched successfully",
                     data: comments
                 });
+            }
+            
+        } catch (err) {
+            return res.status(400).send({
+                message: "error occur",
+                data: err
+            })
+        }
+    }
+
+    // Update comment
+    async update(req, res){
+            
+        try {
+            const postId = req.params.postId;
+            const commentId = req.params.id;
+            
+            if(!mongoose.Types.ObjectId.isValid(postId)){
+                return res.status(400).send("Invalid postId")
+            }
+
+            const post = await PostService.getPost(postId);
+            if(!post){
+                return res.status(400).send({
+                    message: "No post found",
+                    data: {}
+                })
+
+            } else {
+                const current_user = req.user;
+                console.log(current_user._id);
+                const commentNow = await CommentService.findComment(commentId)
+                if(commentNow.userId != current_user._id){
+                    return res.status(422).send({
+                        message: "error occur",
+                        data: err
+                    })
+                } else {
+                    const comment = await CommentService.updateComment(postId, commentId, req.body)
+                    return res.status(201).send({
+                        message: "comment updated successfully",
+                        data: comment
+                    });
+                }
             }
             
         } catch (err) {
