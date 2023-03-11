@@ -3,8 +3,8 @@ const router = express.Router();
 
 const authRoute = require("./authRoute");
 const userProfileRoute = require("./userProfileRoute")
-const PostRoute = require("../routers/postRoute")
-const CommentRoute = require("../routers/commentRoute")
+const PostRoute = require("./postRoute")
+const CommentRoute = require("./commentRoute")
 
 // Authorization route
 router.use("/auth", authRoute);

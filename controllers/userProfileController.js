@@ -30,6 +30,22 @@ class UserProfileController {
         }
     }
 
+    async getByUsername(req, res){
+
+        const handle = req.params.username.substring(1)
+        const user = await UserProfileService.getUserByUsername(handle);
+        if(user){
+            return res.status(200).send({
+                data: user
+            })
+
+        } else {
+            return res.status(400).send({
+                data: "No user with such handle"
+            })
+        }
+    }
+
     async update(req, res){
         const user = await UserProfileService.getUserById(req.params.id);
 

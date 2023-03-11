@@ -11,6 +11,11 @@ class UserProfileService {
         return await User.findById(id).select("-password");
     }
 
+    // Get user with handle eg @username
+    async getUserByUsername(username){
+        return await User.findOne({username: username}).select("-password");
+    }
+
     // update user
     async updateUser(id, data){
         return await User.findByIdAndUpdate(id, data, {
