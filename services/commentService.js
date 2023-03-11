@@ -10,13 +10,13 @@ class CommentService {
     // Get all comment
     async getComments(postId){
 
-        return await Comment.find({"postId": postId}).populate("userId").sort({createdAt: -1})
+        return await Comment.find({"postId": postId}).sort({createdAt: -1})
     }
     
     // Get single comment
     async getComment(postId, id){
         
-        return await Comment.find({"postId": postId, "_id": id}).populate("userId")
+        return await Comment.find({"postId": postId, "_id": id})
     }
     // Update comment
     async updateComment(postId, id, data){

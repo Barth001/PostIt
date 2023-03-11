@@ -1,6 +1,7 @@
 const PostService = require("../services/postService");
 const joiValidator = require("../utilities/postValidator");
 const Post = require("../models/post")
+const mongoose = require("mongoose")
 
 class PostController {
 
@@ -47,14 +48,21 @@ class PostController {
 
     // Get a single post
     async getpost(req, res){
-        const post = await PostService.getPost(req.params.id);
-
-        if(post){
-            return res.status(200).send({
-                message: "successful",
-                data: post
-            })  
-        } else {
+        try {
+            
+            const post = await PostService.getPost(req.params.id);
+    
+            if(post){
+                return res.status(200).send({
+                    message: "successful",
+                    data: post
+                })  
+            } else {
+                return res.status(500).send({
+                    data: "Error"
+                })
+            }
+        } catch (error) {
             return res.status(400).send({
                 data: "No post found"
             })
@@ -63,37 +71,54 @@ class PostController {
 
     // Update a post
     async update(req, res){
-        const newPost = await PostService.update(req.params.id, req.body);
 
-        if (!newPost) {
-            return res.status(400).send({
-                success: false,
-                message: "Something went wrong",
-            });
+        const post = await PostService.getPost(req.params.id)
+
+        if(req.user._id != new mongoose.Types.ObjectId(post.createdBy).toString()){
+            return res.status(422).send("You can only update yourself")
         } else {
-            return res.status(201).send({
-                success: true,
-                message: "Post updated successfully",
-                data: newPost,
-            }); 
+
+            const newPost = await PostService.update(req.params.id, req.body);
+    
+            if (!newPost) {
+                return res.status(400).send({
+                    success: false,
+                    message: "Something went wrong",
+                });
+            } else {
+                return res.status(201).send({
+                    success: true,
+                    message: "Post updated successfully",
+                    data: newPost,
+                }); 
+            }
         }
     }
 
     // Delete user
     async delete(req, res){
-        const post = await PostService.delete(req.params.id);
-        if(post){
-            return res.status(200).send({
-                success: true,
-                message: "Post deleted successfully",
-            }); 
+
+        const thePost = await PostService.getPost(req.params.id)
+
+        if(req.user._id != new mongoose.Types.ObjectId(thePost.createdBy).toString()){
+            return res.status(422).send("You can only delete yourself")
         } else {
-            return res.status(400).send({
-                success: false,
-                message: "Something went wrong",
-            });
+
+            const post = await PostService.delete(req.params.id);
+            if(post){
+                return res.status(200).send({
+                    success: true,
+                    message: "Post deleted successfully",
+                }); 
+            } else {
+                return res.status(400).send({
+                    success: false,
+                    message: "Something went wrong",
+                });
+            }
         }
     }
+
 }
 
 module.exports = new PostController();

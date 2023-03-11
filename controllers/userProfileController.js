@@ -34,13 +34,18 @@ class UserProfileController {
         const user = await UserProfileService.getUserById(req.params.id);
 
         if (user) {
-            const updatedUser = await UserProfileService.updateUser(req.params.id, req.body);
+            if(req.user_id != user._id){
+                return res.status(422).send("You can only update yourself")
+            } else {
 
-            return res.status(200).send({
-            success: true,
-            message: "User updated successfully",
-            data: updatedUser,
-              });
+                const updatedUser = await UserProfileService.updateUser(req.params.id, req.body);
+    
+                return res.status(200).send({
+                success: true,
+                message: "User updated successfully",
+                data: updatedUser,
+                  });
+                }
         } else {
             return res.status(400).send({
             success: false,
@@ -51,13 +56,21 @@ class UserProfileController {
 
     async deleteUser(req, res){
         const user = await UserProfileService.getUserById(req.params.id);
+        console.log(user);
 
         if(user){
-            await UserProfileService.deleteUser(req.params.id)
-            return res.status(200).send({
-            success: true,
-            message: "successfully deleted"
-            });
+            console.log(req.user._id);
+            console.log(user._id);
+            if(req.user._id != user._id){
+                return res.status(422).send("You can only delete yourself")
+            } else {
+
+                await UserProfileService.deleteUser(req.params.id)
+                return res.status(200).send({
+                success: true,
+                message: "successfully deleted"
+                });
+            }
         } else {
             return res.status(400).send({
             success: false,
