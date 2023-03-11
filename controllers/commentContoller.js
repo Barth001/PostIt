@@ -140,12 +140,11 @@ class CommentController {
 
             } else {
                 const current_user = req.user;
-                console.log(current_user._id);
                 const commentNow = await CommentService.findComment(commentId)
                 if(commentNow.userId != current_user._id){
                     return res.status(422).send({
-                        message: "error occur",
-                        data: err
+                        message: "You can only update your comment",
+                        
                     })
                 } else {
                     const comment = await CommentService.updateComment(postId, commentId, req.body)
@@ -186,8 +185,7 @@ class CommentController {
                 const commentNow = await CommentService.findComment(commentId)
                 if(commentNow.userId != current_user._id){
                     return res.status(422).send({
-                        message: "error occur",
-                        data: err
+                        message: "You can only delete your comment",
                     })
                 } else {
                     await CommentService.deleteComment(commentId)

@@ -10,7 +10,7 @@ class PostService {
 
     // Get all post
     async getPosts(){
-        return await Post.find().populate("createdBy").sort({createdAt: -1})
+        return await Post.find().sort({createdAt: -1})
     }
 
     // Get a single post
@@ -25,7 +25,7 @@ class PostService {
 
     // Delete a post
     async delete(id){
-        return await Post.findByIdAndRemove(id)
+        return await Post.findByIdAndRemove(id).select("-password")
     }
 }
 

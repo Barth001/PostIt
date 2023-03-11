@@ -25,7 +25,16 @@ class AuthController {
 
             return res.status(201).send({
                 message: "Registered successfully",
-                data: newUser
+                data: {
+                    avater: newUser.userAvater,
+                    firstName: newUser.firstName,
+                    lastName: newUser.lastName,
+                    username: newUser.username,
+                    email: newUser.email,
+                    createdAt: newUser.createdAt,
+                    updatedAt: newUser.updatedAt
+                    
+                }
             })
         } catch (error) {
             return res.status(400).send({
@@ -38,7 +47,7 @@ class AuthController {
     async login(req, res){
 
         try {
-            const userData = await User.findOne({$or:[{email: req.body.email}, {username: req.body.username.toLowerCase()}]});
+            const userData = await User.findOne({username: req.body.username.toLowerCase()});
 
             if (userData) {
                 
@@ -47,14 +56,21 @@ class AuthController {
 
                     return res.status(200).send({
                         message: "Login successfully",
-                        data: userData,
+                        data: {
+                            avater: userData.userAvater,
+                            firstName: userData.firstName,
+                            lastName: userData.lastName,
+                            username: userData.username,
+                            email: userData.email,
+                            
+                        },
                         token: jwt_token
                     })
                 } else {
                     return res.status(400).send("Invalid Credential");
                 }
             } else {
-                return res.status(400).send("Invalid email or username is taken");
+                return res.status(400).send("Invalid username or password");
             }
         } catch (error) {
             return res.status(400).send({
