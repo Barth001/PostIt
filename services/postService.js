@@ -17,7 +17,7 @@ class PostService {
     async getPost(data){
         return await Post.find({ _id: data, deleted: false }).select("-deleted")
     }
-    // Get psot for update
+    // Get post for update
     async getPostForUpdate(id){
         return await Post.findById(id)
     }
@@ -27,14 +27,11 @@ class PostService {
         return await Post.findByIdAndUpdate(id, data, {new: true}).select("-deleted")
     }
 
-    // Delete a post
+    // Delete a post (soft delete)
     async delete(id, data){
         return await Post.findByIdAndUpdate(id, data).select("-password")
     }
 
-    async delete(id){
-        return await Post.findByIdAndUpdate(id)
-    }
 }
 
 module.exports = new PostService();

@@ -3,17 +3,17 @@ const User = require("../models/user");
 class UserProfileService {
     // Get all users
     async getAllUser(){
-        return await User.find({}).select("-password");
+        return await User.find({deleted: false}).select("-password").select("-deleted");
     }
 
     // Get user by id
     async getUserById(id){
-        return await User.findById(id).select("-password");
+        return await User.findById(id).select("-password").select("-deleted");
     }
 
     // Get user with handle eg @username
     async getUserByUsername(username){
-        return await User.findOne({username: username}).select("-password");
+        return await User.findOne({username: username}).select("-password").select("deleted");
     }
 
     // update user
@@ -21,12 +21,12 @@ class UserProfileService {
         return await User.findByIdAndUpdate(id, data, {
             new: true,
             runValidators: true
-        }).select("-password")
+        }).select("-password").select("-deleted")
     }
 
-    // delete user
-    async deleteUser(id){
-        return await User.findByIdAndRemove(id)
+    // Delete a user (soft delete)
+    async delete(id, data){
+        return await User.findByIdAndUpdate(id, data).select("-password")
     }
 
 }

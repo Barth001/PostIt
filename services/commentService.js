@@ -8,19 +8,19 @@ class CommentService {
     }
 
     // Get all comment
-    async getComments(postId){
+    async getComments(id){
 
-        return await Comment.find({"postId": postId}).sort({createdAt: -1}).select("-deleted")
+        return await Comment.find({postId: id, deleted: false}).sort({createdAt: -1}).select("-deleted")
     }
     
     // Get single comment
     async getComment(postId, id){
         
-        return await Comment.find({"postId": postId, "_id": id}).select("-deleted")
+        return await Comment.findOne({postId: postId, _id: id, deleted: false}).select("-deleted")
     }
     // Update comment
     async updateComment(postId, id, data){
-        return await Comment.findOneAndUpdate({"postId": postId, "_id": id}, data)
+        return await Comment.findOneAndUpdate({"postId": postId, "_id": id, deleted: false}, data, {new: true})
     }
 
     async findComment(id){
@@ -29,7 +29,7 @@ class CommentService {
 
     // Delete comment
     async deleteComment(id){
-        return await Comment.findByIdAndRemove(id)
+        return await Comment.findByIdAndUpdate(id, {deleted: true})
     }
 
 }
