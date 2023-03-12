@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { boolean } = require("joi");
 // const getRandomAvatarStyle = require("../utilities/avater")
 
 const userSchema = new mongoose.Schema({
@@ -39,6 +40,11 @@ const userSchema = new mongoose.Schema({
     "role": {
         type: String,
         default: "visitor"
+    },
+
+    "deleted":{
+        type: Boolean,
+        default: false
     }
 
 },
