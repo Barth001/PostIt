@@ -15,7 +15,7 @@ app.use(cors())
 app.use("/api/v1", routers);
 
 DatabaseConnection.connectDB();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
     console.log(`The server is runinnig at ${PORT}`);
