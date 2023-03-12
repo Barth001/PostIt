@@ -59,9 +59,9 @@ class PostController {
     async getpost(req, res){
         try {
 
-            const initial = PostService.delete(req.params.id)
+            const initial = await PostService.getPostForUpdate(req.params.id)
 
-            if(!initial) return res.status(422).send("Invalid password")
+            if(initial.deleted === true) return res.status(401).send("No such post")
             
             const post = await PostService.getPost(req.params.id);
     
@@ -110,7 +110,7 @@ class PostController {
         }
     }
 
-    // Delete user
+    // Delete post
     async delete(req, res){
 
         const thePost = await PostService.getPost(req.params.id)

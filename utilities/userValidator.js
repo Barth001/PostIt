@@ -6,6 +6,7 @@ const joiValidator = Joi.object().keys({
     username: Joi.string().required().lowercase(),
     email: Joi.string().email().required(),
     password: Joi.string().min(3).max(15).required(),
+    deleted: Joi.boolean()
 })
 
 module.exports = joiValidator;
