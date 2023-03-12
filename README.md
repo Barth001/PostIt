@@ -1,16 +1,62 @@
 # PostIt
 Post App API
 
-# DATA BASE MODEL LINK
+## DATA BASE MODEL LINK
 https://dbdesigner.page.link/zmQeqZTx6c9sfhkEA
 
-## COMMENT FOR DATABASE
+# COMMENT FOR DATABASE
 Database modelling of this app was done using sql structure, 
 but database used in this app is NonSql (mongodb)
 
-# Live URL Link
-
 # Documentation URL
+
+
+## Live URL Link
+
+# Auth routes
+
+[POST] https://postit-barth.onrender.com/api/v1/auth/register
+
+[POST] https://postit-barth.onrender.com/api/v1/auth/login
+
+# User routes
+
+[GET] https://postit-barth.onrender.com/api/v1/user/:id
+
+[GET] https://postit-barth.onrender.com/api/v1/user
+
+[PUT] https://postit-barth.onrender.com/api/v1/user/:id
+
+[DELETE] https://postit-barth.onrender.com/api/v1/user/:id
+
+# Post routes
+
+[GET] https://postit-barth.onrender.com/api/v1/post
+
+[POST] https://postit-barth.onrender.com/api/v1/post
+
+[GET] https://postit-barth.onrender.com/api/v1/post/:id
+
+[PUT] https://postit-barth.onrender.com/api/v1/post/:id
+
+[DELETE] https://postit-barth.onrender.com/api/v1/post/:id
+
+# Comment routes
+
+[GET] https://postit-barth.onrender.com/api/v1/post/:postId/comment/:id
+
+[POST] https://postit-barth.onrender.com/api/v1/post/:postId/comment
+
+[GET] https://postit-barth.onrender.com/api/v1/post/:postId/comment
+
+[PUT] https://postit-barth.onrender.com/api/v1/post/:postId/comment/:id
+
+[DELETE] https://postit-barth.onrender.com/api/v1/post/comment/:id
+
+# User handle
+
+[GET] https://postit-barth.onrender.com/api/v1/user/handle/:username
+
 
 
 # Starting the app Locally on your machine
@@ -26,7 +72,7 @@ but database used in this app is NonSql (mongodb)
     Start the server in development by running: npm start. 
     Read the output from the terminal to be sure the server is running and the database is connected.
 
-# API LOCAL URL ROUTES
+## API LOCAL URL ROUTES
 
 # Auth routes
 
