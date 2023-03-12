@@ -14,7 +14,7 @@ require("dotenv").config();
 app.use(cors())
 app.use("/api/v1", routers);
 
-DatabaseConnection.connectDBLocally();
+DatabaseConnection.connectDB();
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
