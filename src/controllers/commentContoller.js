@@ -42,7 +42,15 @@ class CommentController {
 
             return res.status(201).send({
                 message: "You commented on this post",
-                data: data
+                data: {
+                    comment: data.comment,
+                    postId: data.postId,
+                    userId: data.userId,
+                    _id: data._id,
+                    createdAt: data.createdAt,
+                    updatedAt: data.updatedAt
+                    
+                },
             })
             
         } catch (err) {
@@ -106,6 +114,7 @@ class CommentController {
             } else {
 
                 const comments = await CommentService.getComment(postId, commentId)
+                
                 return res.status(200).send({
                     message: "comment fetched successfully",
                     data: comments
@@ -147,10 +156,18 @@ class CommentController {
                         
                     })
                 } else {
-                    const comment = await CommentService.updateComment(postId, commentId, req.body)
+                    const data = await CommentService.updateComment(postId, commentId, req.body)
                     return res.status(201).send({
                         message: "comment updated successfully",
-                        data: comment
+                        data: {
+                            comment: data.comment,
+                            postId: data.postId,
+                            userId: data.userId,
+                            _id: data._id,
+                            createdAt: data.createdAt,
+                            updatedAt: data.updatedAt
+                            
+                        },
                     });
                 }
             }
@@ -176,14 +193,13 @@ class CommentController {
             const comment = await CommentService.findComment(commentId);
             if(!comment){
                 return res.status(400).send({
-                    message: "No post found",
+                    message: "No comment found",
                     data: {}
                 })
 
             } else {
-                const current_user = req.user;
-                const commentNow = await CommentService.findComment(commentId)
-                if(commentNow.userId != current_user._id){
+            
+                if(new mongoose.Types.ObjectId(comment.userId).toString() != req.user._id){
                     return res.status(422).send({
                         message: "You can only delete your comment",
                     })

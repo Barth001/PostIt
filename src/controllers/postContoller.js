@@ -23,7 +23,16 @@ class PostController {
             const data = await PostService.createPost(newData);
             return res.status(201).send({
                 message: "A post created successfully",
-                data: data
+                data: {
+                    title: data.title,
+                    body: data.body,
+                    createdBy: data.createdBy,
+                    postComments: data.postComments,
+                    _id: data._id,
+                    createdAt: data.createdAt,
+                    updatedAt: data.updatedAt
+                    
+                },
             })
         } catch (err) {
             return res.status(400).send("Something went wrong")
@@ -49,6 +58,10 @@ class PostController {
     // Get a single post
     async getpost(req, res){
         try {
+
+            const initial = await PostService.getPostForUpdate(req.params.id)
+
+            if(initial.deleted === true) return res.status(401).send("No such post")
             
             const post = await PostService.getPost(req.params.id);
     
@@ -72,8 +85,10 @@ class PostController {
     // Update a post
     async update(req, res){
 
-        const post = await PostService.getPost(req.params.id)
+        const post = await PostService.getPostForUpdate(req.params.id)
 
+        if(post.deleted == true) {return res.status(401).send("Post doesn't exist")}
+  
         if(req.user._id != new mongoose.Types.ObjectId(post.createdBy).toString()){
             return res.status(422).send("You can only update yourself")
         } else {
@@ -95,7 +110,7 @@ class PostController {
         }
     }
 
-    // Delete user
+    // Delete post
     async delete(req, res){
 
         const thePost = await PostService.getPost(req.params.id)
@@ -104,12 +119,13 @@ class PostController {
             return res.status(422).send("You can only delete yourself")
         } else {
 
-            const post = await PostService.delete(req.params.id);
+            const post = await PostService.delete(req.params.id, {deleted: true});
             if(post){
                 return res.status(200).send({
                     success: true,
                     message: "Post deleted successfully",
                 }); 
+                
             } else {
                 return res.status(400).send({
                     success: false,
