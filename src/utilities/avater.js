@@ -1,4 +1,4 @@
-
+// avater styles naming
 const avatarStyles = [
     'adventurer',
     'adventurer-neutral',
