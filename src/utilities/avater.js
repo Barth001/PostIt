@@ -29,7 +29,7 @@ const avatarStyles = [
 
 
 const getRandomAvatarStyle = () => {
- // Your code here
+ // Write Your code here
 const random = Math.floor(Math.random() * avatarStyles.length);
 return avatarStyles[random];
 }
