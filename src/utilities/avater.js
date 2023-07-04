@@ -29,7 +29,7 @@ const avatarStyles = [
 
 
 const getRandomAvatarStyle = () => {
- // Write Your code here, and call the function in your model
+ // Write Your code here, and call the function in your user model
 const random = Math.floor(Math.random() * avatarStyles.length);
 return avatarStyles[random];
 }
