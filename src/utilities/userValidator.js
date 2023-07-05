@@ -1,5 +1,5 @@
 const Joi = require("joi");
-    
+// Validation
 const joiValidator = Joi.object().keys({
     firstName:  Joi.string().required(),
     lastName: Joi.string().required(),
