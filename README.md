@@ -62,14 +62,21 @@ https://documenter.getpostman.com/view/11413956/2s93JtR3uQ
 ## Starting the app Locally on your machine
 
     clone the repository
+    git clone https://github.com/WaveGuide1/PostIt
+    
+    install the dependencies: using npm
 
-    install the dependencies: using npm i
+    npm install
     
     create a new file named .env in root folder of the project.
 
     Mongo DB atlas is advised for the DATABASE_URL key, 
     but local database url is fine. 
-    Start the server in development by running: npm start. 
+    
+    Start the server in development by running: 
+    
+    npm start
+    
     Read the output from the terminal to be sure the server is running and the database is connected.
 
 # API LOCAL URL ROUTES
